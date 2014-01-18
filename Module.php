@@ -24,7 +24,7 @@ class Module implements
         $moduleOptions  = $serviceManager->get(__NAMESPACE__ . '\Options\ModuleOptions');
 
         if (true === $moduleOptions->getForceLowercaseRequest()) {
-            $fullUrl = (string)$event->getRequest()->getUri()->normalize();
+            $fullUrl = (string) $event->getRequest()->getUri()->normalize();
             if (strtolower($fullUrl) != $fullUrl) {
                 $response = $event->getResponse();
                 $response->setStatusCode(301);
