@@ -2,7 +2,7 @@
 
 namespace DesignmovesApplication\Listener;
 
-use ReflectionClass;
+use ReflectionProperty;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
@@ -122,21 +122,10 @@ class ExceptionTemplateListener implements ListenerAggregateInterface
      */
     protected function getDefaultStatusCodes(Response $response)
     {
-        $reflection = new ReflectionClass($response);
+        $property = new ReflectionProperty($response, 'recommendedReasonPhrases');
+        $property->setAccessible(true);
 
-        $propertyName = 'recommendedReasonPhrases';
-        if (!$reflection->hasProperty($propertyName)) {
-            throw new Exception\LogicException(sprintf(
-                'Property with name "%s" does not exist in %s',
-                $propertyName,
-                is_object($response) ? get_class($response) : gettype($response)
-            ));
-        }
-
-        $reflectionProperty = $reflection->getProperty($propertyName);
-        $reflectionProperty->setAccessible(true);
-        $propertyValue = $reflectionProperty->getValue($response);
-
-        return array_keys($propertyValue);
+        $value = $property->getValue($response);
+        return array_keys($value);
     }
 }

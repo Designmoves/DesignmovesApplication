@@ -5,6 +5,8 @@ namespace DesignmovesApplicationTest\Listener;
 use Exception;
 use DesignmovesApplication\Listener\ExceptionTemplateListener;
 use PHPUnit_Framework_TestCase;
+use ReflectionMethod;
+use ReflectionProperty;
 use Zend\EventManager\EventManager;
 use Zend\Http\Response;
 use Zend\Mvc\Application;
@@ -234,5 +236,20 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->listener->prepareExceptionViewModel($this->eventMock);
 
         $this->assertSame($statusCode, $response->getStatusCode());
+    }
+
+    public function testGetDefaultStatusCodes()
+    {
+        $response = new Response;
+        $property = new ReflectionProperty($response, 'recommendedReasonPhrases');
+        $property->setAccessible(true);
+
+        $reasonPhrases = $property->getValue($response);
+        $expectedValue = array_keys($reasonPhrases);
+
+        $method = new ReflectionMethod($this->listener, 'getDefaultStatusCodes');
+        $method->setAccessible(true);
+
+        $this->assertSame($expectedValue, $method->invoke($this->listener, $response));
     }
 }
