@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'designmoves_application' => array(
         'force_lowercase_request' => true,
@@ -16,6 +17,11 @@ return array(
     ),
 
     'router' => array(
+        /**
+         * Bugfix for issue #5965
+         * @link https://github.com/zendframework/zf2/issues/5965
+         */
+        'router_class' => 'DesignmovesApplication\Mvc\Router\Http\TranslatorAwareTreeRouteStack',
         'routes' => array(
             'home' => array(
                 'type' => 'literal',
