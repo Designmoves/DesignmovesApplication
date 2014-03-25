@@ -6,7 +6,6 @@ use Exception;
 use DesignmovesApplication\Listener\ExceptionTemplateListener;
 use PHPUnit_Framework_TestCase;
 use ReflectionMethod;
-use ReflectionProperty;
 use Zend\EventManager\EventManager;
 use Zend\Http\Response;
 use Zend\Mvc\Application;
@@ -66,6 +65,14 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->event    = new MvcEvent;
         $this->renderer = new PhpRenderer;
         $this->listener = new ExceptionTemplateListener($this->renderer);
+    }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testRendererIsSetOnConstruct()
+    {
+        $this->assertSame($this->renderer, self::readAttribute($this->listener, 'renderer'));
     }
 
     /**
@@ -174,15 +181,24 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testCanGetDefaultStatusCodes()
     {
-        $response = new Response;
-        $property = new ReflectionProperty($response, 'recommendedReasonPhrases');
-        $property->setAccessible(true);
-
-        $reasonPhrases = $property->getValue($response);
+        $response      = new Response;
+        $reasonPhrases = self::readAttribute($response, 'recommendedReasonPhrases');
+        $expectedValue = array_keys($reasonPhrases);
 
         $method = new ReflectionMethod($this->listener, 'getDefaultStatusCodes');
         $method->setAccessible(true);
 
-        $this->assertSame(array_keys($reasonPhrases), $method->invoke($this->listener, $response));
+        $this->assertSame($expectedValue, $method->invoke($this->listener, $response));
+    }
+
+    /**
+     * @covers ::getRenderer
+     */
+    public function testCanGetRenderer()
+    {
+        $method = new ReflectionMethod($this->listener, 'getRenderer');
+        $method->setAccessible(true);
+
+        $this->assertSame($this->renderer, $method->invoke($this->listener));
     }
 }
