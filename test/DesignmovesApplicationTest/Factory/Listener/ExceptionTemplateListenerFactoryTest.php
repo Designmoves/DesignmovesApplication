@@ -4,8 +4,13 @@ namespace DesignmovesApplicationTest\Factory\Listener;
 
 use DesignmovesApplication\Factory\Listener\ExceptionTemplateListenerFactory;
 use PHPUnit_Framework_TestCase;
+use Zend\ServiceManager\ServiceManager;
+use Zend\View\Renderer\PhpRenderer;
 
-class PageListenerFactoryTest extends PHPUnit_Framework_TestCase
+/**
+ * @coversDefaultClass DesignmovesApplication\Factory\Listener\ExceptionTemplateListenerFactory
+ */
+class ExceptionTemplateListenerFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var ExceptionTemplateListenerFactory
@@ -15,30 +20,23 @@ class PageListenerFactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @var ServiceManager
      */
-    protected $serviceManagerMock;
+    protected $serviceManager;
 
     public function setUp()
     {
-        $this->serviceManagerMock = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
-                                         ->disableOriginalConstructor()
-                                         ->getMock();
-
-        $this->factory = new ExceptionTemplateListenerFactory();
+        $this->serviceManager = new ServiceManager;
+        $this->factory        = new ExceptionTemplateListenerFactory();
     }
 
-    public function testFactoryReturnsCorrectInstance()
+    /**
+     * @covers ::createService
+     */
+    public function testCanCreateService()
     {
-        $rendererMock = $this->getMockBuilder('Zend\View\Renderer\PhpRenderer')
-                             ->disableOriginalConstructor()
-                             ->getMock();
+        $this->serviceManager->setService('Zend\View\Renderer\PhpRenderer', new PhpRenderer);
 
-        $this->serviceManagerMock
-             ->expects($this->once())
-             ->method('get')
-             ->with($this->equalTo('Zend\View\Renderer\PhpRenderer'))
-             ->will($this->returnValue($rendererMock));
+        $listener = $this->factory->createService($this->serviceManager);
 
-        $listener = $this->factory->createService($this->serviceManagerMock);
         $this->assertInstanceOf('DesignmovesApplication\Listener\ExceptionTemplateListener', $listener);
     }
 }

@@ -2,23 +2,19 @@
 
 namespace DesignmovesApplication\Listener;
 
+use Exception;
 use ReflectionProperty;
+use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Http\Response;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Renderer\PhpRenderer;
 
-class ExceptionTemplateListener implements ListenerAggregateInterface
+class ExceptionTemplateListener extends AbstractListenerAggregate
 {
-    /**
-     * @var \Zend\Stdlib\CallbackHandler[]
-     */
-    protected $listeners = array();
-
     /**
      * @var PhpRenderer
      */
@@ -45,20 +41,6 @@ class ExceptionTemplateListener implements ListenerAggregateInterface
 
         $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, $callback);
         $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR  , $callback);
-    }
-
-    /**
-     * Detach events
-     *
-     * @param EventManagerInterface $eventManager
-     */
-    public function detach(EventManagerInterface $eventManager)
-    {
-        foreach ($this->listeners as $index => $listener) {
-            if ($eventManager->detach($listener)) {
-                unset($this->listeners[$index]);
-            }
-        }
     }
 
     /**
@@ -96,7 +78,7 @@ class ExceptionTemplateListener implements ListenerAggregateInterface
 
         // Do nothing if the exception can not be found
         $exception = $event->getParam('exception', false);
-        if (!$exception instanceof \Exception) {
+        if (!$exception instanceof Exception) {
             return;
         }
 
@@ -111,7 +93,7 @@ class ExceptionTemplateListener implements ListenerAggregateInterface
         $response->setStatusCode($statusCode);
 
         $template = 'error/' . $statusCode;
-        if ($this->renderer->resolver($template)) {
+        if ($this->getRenderer()->resolver($template)) {
             $viewModel->setTemplate($template);
         }
     }
@@ -127,5 +109,13 @@ class ExceptionTemplateListener implements ListenerAggregateInterface
 
         $value = $property->getValue($response);
         return array_keys($value);
+    }
+
+    /**
+     * @return PhpRenderer
+     */
+    protected function getRenderer()
+    {
+        return $this->renderer;
     }
 }
