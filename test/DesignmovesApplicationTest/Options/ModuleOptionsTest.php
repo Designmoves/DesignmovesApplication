@@ -4,8 +4,10 @@ namespace DesignmovesApplicationTest\Options;
 
 use DesignmovesApplication\Options\ModuleOptions;
 use PHPUnit_Framework_TestCase;
-use ReflectionProperty;
 
+/**
+ * @coversDefaultClass DesignmovesApplication\Options\ModuleOptions
+ */
 class ModuleOptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -13,44 +15,29 @@ class ModuleOptionsTest extends PHPUnit_Framework_TestCase
      */
     protected $options;
 
-    public function providerClassMethods()
-    {
-        return array(
-            array('setForceLowercaseRequest'),
-            array('getForceLowercaseRequest'),
-        );
-    }
-
     public function setUp()
     {
-        $this->options = new ModuleOptions();
+        $this->options = new ModuleOptions;
+    }
+
+    public function testStrictModeIsEnabled()
+    {
+        $this->assertTrue(self::readAttribute($this->options, '__strictMode__'));
     }
 
     /**
-     * @dataProvider providerClassMethods
+     * @covers ::getForceLowercaseRequest
      */
-    public function testClassMethodExists($method)
+    public function testGetForceLowercaseRequestDefaultsToFalse()
     {
-        $parentClassMethods = get_class_methods(get_parent_class($this->options));
-        $classMethods       = array_diff(get_class_methods($this->options), $parentClassMethods);
-
-        $errorMessage = sprintf('Class "%s" does not have a method with name "%s"',
-            get_class($this->options),
-            $method
-        );
-        $this->assertTrue(in_array($method, $classMethods), $errorMessage);
+        $this->assertFalse($this->options->getForceLowercaseRequest());
     }
 
-    public function testClassMethodsCount()
-    {
-        $parentClassMethods = get_class_methods(get_parent_class($this->options));
-        $classMethods       = array_diff(get_class_methods($this->options), $parentClassMethods);
-
-        $errorMessage = sprintf('Class "%s" has a wrong amount of class methods', get_class($this->options));
-        $this->assertCount(2, $classMethods, $errorMessage);
-    }
-
-    public function testForceLowercaseRequest()
+    /**
+     * @covers ::setForceLowercaseRequest
+     * @covers ::getForceLowercaseRequest
+     */
+    public function testCanSetForceLowercaseRequest()
     {
         $this->assertFalse($this->options->getForceLowercaseRequest());
 
@@ -59,13 +46,5 @@ class ModuleOptionsTest extends PHPUnit_Framework_TestCase
 
         $this->options->setForceLowercaseRequest(false);
         $this->assertFalse($this->options->getForceLowercaseRequest());
-    }
-
-    public function testStrictModeIsEnabled()
-    {
-        $property = new ReflectionProperty($this->options, '__strictMode__');
-        $property->setAccessible(true);
-
-        $this->assertTrue($property->getValue($this->options));
     }
 }
