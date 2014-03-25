@@ -9,6 +9,9 @@ use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
 
+/**
+ * @coversDefaultClass DesignmovesApplication\Controller\IndexController
+ */
 class IndexControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -55,6 +58,9 @@ class IndexControllerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
+    /**
+     * @covers ::placeholderAction
+     */
     public function testPlaceholderAction()
     {
         // Specify which action to run
