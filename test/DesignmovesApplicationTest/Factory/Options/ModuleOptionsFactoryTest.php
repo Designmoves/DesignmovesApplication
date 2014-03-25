@@ -4,7 +4,12 @@ namespace DesignmovesApplicationTest\Factory\Options;
 
 use DesignmovesApplication\Factory\Options\ModuleOptionsFactory;
 use PHPUnit_Framework_TestCase;
+use Zend\Config\Config;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * @coversDefaultClass DesignmovesApplication\Factory\Options\ModuleOptionsFactory
+ */
 class ModuleOptionsFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -12,27 +17,29 @@ class ModuleOptionsFactoryTest extends PHPUnit_Framework_TestCase
      */
     protected $factory;
 
+    /**
+     * @var ServiceManager
+     */
+    protected $serviceManager;
+
     public function setUp()
     {
-        $this->factory = new ModuleOptionsFactory();
+        $this->factory        = new ModuleOptionsFactory;
+        $this->serviceManager = new ServiceManager;
     }
 
-    public function testFactoryReturnsCorrectInstance()
+    /**
+     * @covers ::createService
+     */
+    public function testCanCreateService()
     {
-        $config = array(
+        $config = new Config(array(
             'designmoves_application' => array(),
-        );
+        ));
+        $this->serviceManager->setService('Config', $config);
 
-        $serviceManagerMock = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
-                                   ->disableOriginalConstructor()
-                                   ->getMock();
+        $moduleOptions = $this->factory->createService($this->serviceManager);
 
-        $serviceManagerMock->expects($this->once())
-                           ->method($this->equalTo('get'))
-                           ->with($this->equalTo('Config'))
-                           ->will($this->returnValue($config));
-
-        $moduleOptions = $this->factory->createService($serviceManagerMock);
         $this->assertInstanceOf('DesignmovesApplication\Options\ModuleOptions', $moduleOptions);
     }
 }
