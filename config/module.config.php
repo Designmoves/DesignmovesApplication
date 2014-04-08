@@ -17,11 +17,6 @@ return array(
     ),
 
     'router' => array(
-        /**
-         * Bugfix for issue #5965
-         * @link https://github.com/zendframework/zf2/issues/5965
-         */
-        'router_class' => 'DesignmovesApplication\Mvc\Router\Http\TranslatorAwareTreeRouteStack',
         'routes' => array(
             'home' => array(
                 'type' => 'literal',
@@ -48,9 +43,6 @@ return array(
         'factories' => array(
             'DesignmovesApplication\Listener\ExceptionTemplateListener' => 'DesignmovesApplication\Factory\Listener\ExceptionTemplateListenerFactory',
             'DesignmovesApplication\Options\ModuleOptions'              => 'DesignmovesApplication\Factory\Options\ModuleOptionsFactory',
-            // Fix for issue 5978
-            // @link https://github.com/zendframework/zf2/issues/5978
-            'MvcTranslator'                                             => 'DesignmovesApplication\Mvc\Service\TranslatorServiceFactory',
             'Zend\Navigation\Service\DefaultNavigationFactory'          => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
     ),
