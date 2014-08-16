@@ -1,0 +1,31 @@
+# Script language
+language: php
+
+# PHP versions to test against
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+before_script:
+  # Update composer first
+  - composer self-update
+  # Load dependencies defined in composer.json
+  - composer update --prefer-source
+
+script:
+  # Run PHP Coding Standards Fixer
+  - vendor/bin/php-cs-fixer fix --verbose --dry-run
+  # Run PHPUnit (Travis build passing icon)
+  # - use configuration file located at: test/phpunit.xml.dist
+  # - save a coverage report for Coveralls at: build/logs/clover.xml
+  - ./vendor/bin/phpunit --configuration test/phpunit.xml.dist --coverage-clover build/logs/clover.xml
+
+after_script:
+  # Run coverage checker (Coveralls coverage icon)
+  # Add -v flag to enable logging
+  - php vendor/bin/coveralls
+
+notifications:
+  # Whether to receive notifications from Travis
+  email: false
