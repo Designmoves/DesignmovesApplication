@@ -38,6 +38,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 /**
  * @coversDefaultClass DesignmovesApplication\Factory\Listener\ExceptionTemplateListenerFactory
+ * @uses               DesignmovesApplication\Listener\ExceptionTemplateListener
  */
 class ExceptionTemplateListenerFactoryTest extends PHPUnit_Framework_TestCase
 {

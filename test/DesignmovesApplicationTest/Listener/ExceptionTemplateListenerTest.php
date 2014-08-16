@@ -44,6 +44,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 /**
  * @coversDefaultClass DesignmovesApplication\Listener\ExceptionTemplateListener
+ * @uses               DesignmovesApplication\Listener\ExceptionTemplateListener
  */
 class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
 {
@@ -161,7 +162,8 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testPrepareExceptionViewModelReturnsEarlyWhenErrorIsEmpty()
     {
-        $this->listener->prepareExceptionViewModel($this->event);
+        $returnValue = $this->listener->prepareExceptionViewModel($this->event);
+        $this->assertNull($returnValue);
     }
 
     /**
