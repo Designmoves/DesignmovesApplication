@@ -57,9 +57,9 @@ class ModuleOptionsTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::getForceLowercaseRequest
      */
-    public function testGetForceLowercaseRequestDefaultsToFalse()
+    public function testCanGetForceLowercaseRequestDefaultValue()
     {
-        $this->assertFalse($this->options->getForceLowercaseRequest());
+        $this->assertTrue($this->options->getForceLowercaseRequest());
     }
 
     /**
@@ -68,8 +68,6 @@ class ModuleOptionsTest extends PHPUnit_Framework_TestCase
      */
     public function testCanSetForceLowercaseRequest()
     {
-        $this->assertFalse($this->options->getForceLowercaseRequest());
-
         $this->options->setForceLowercaseRequest(true);
         $this->assertTrue($this->options->getForceLowercaseRequest());
 

@@ -36,6 +36,13 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions extends AbstractOptions
 {
     /**
+     * Whether to use strict mode
+     *
+     * @var bool
+     */
+    protected $__strictMode = true;
+
+    /**
      * @var bool
      */
     protected $forceLowercaseRequest = true;
