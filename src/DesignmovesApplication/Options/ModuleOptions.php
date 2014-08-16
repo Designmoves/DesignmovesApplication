@@ -38,7 +38,7 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var bool
      */
-    protected $forceLowercaseRequest;
+    protected $forceLowercaseRequest = true;
 
     /**
      * @param bool $forceLowercaseRequest
