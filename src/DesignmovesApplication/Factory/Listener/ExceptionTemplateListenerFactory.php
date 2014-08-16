@@ -40,7 +40,7 @@ class ExceptionTemplateListenerFactory implements FactoryInterface
     /**
      * Create exception template listener
      *
-     * @param  ServiceLocatorInterface $serviceLocator
+     * @param  ServiceLocatorInterface   $serviceLocator
      * @return ExceptionTemplateListener
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
