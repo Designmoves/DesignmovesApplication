@@ -1,6 +1,9 @@
 # PHPUnit files   #
 ###################
+# Ignore code coverage report
 test/clover.xml
+# Ignore custom phpunit.xml config
+test/phpunit.xml
 
 # OS generated files #
 ######################
