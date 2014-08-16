@@ -137,6 +137,7 @@ class ExceptionTemplateListener extends AbstractListenerAggregate
         $property->setAccessible(true);
 
         $value = $property->getValue($response);
+
         return array_keys($value);
     }
 

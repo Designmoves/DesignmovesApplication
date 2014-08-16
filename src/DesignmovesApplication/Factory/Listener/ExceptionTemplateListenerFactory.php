@@ -46,6 +46,7 @@ class ExceptionTemplateListenerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $renderer = $serviceLocator->get('Zend\View\Renderer\PhpRenderer');
+
         return new ExceptionTemplateListener($renderer);
     }
 }

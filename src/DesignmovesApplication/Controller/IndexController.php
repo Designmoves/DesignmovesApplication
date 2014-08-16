@@ -44,6 +44,7 @@ class IndexController extends AbstractActionController
     {
         $viewModel = parent::indexAction();
         $viewModel->setTerminal(true);
+
         return $viewModel;
     }
 }

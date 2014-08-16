@@ -1,4 +1,5 @@
 <?php
+
 return function ($class) {
     static $map;
     if (!$map) {
@@ -8,5 +9,6 @@ return function ($class) {
     if (!isset($map[$class])) {
         return false;
     }
+
     return include $map[$class];
 };
