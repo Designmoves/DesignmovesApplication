@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="Bootstrap.php" colors="true">
+<phpunit
+    bootstrap="Bootstrap.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnError="true"
+    stopOnFailure="true"
+    stopOnIncomplete="true"
+    stopOnSkipped="true"
+    strict="true"
+    verbose="true">
+
   <testsuites>
     <testsuite name="DesignmovesApplication">
       <directory>./DesignmovesApplicationTest</directory>
     </testsuite>
   </testsuites>
 
+  <php>
+    <ini name="date.timezone" value="UTC"/>
+    <ini name="error_reporting" value="-1"/>
+  </php>
+
   <!-- For code coverage test -->
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <!-- this is the path of the files included in your clover report -->
+      <!-- These are the paths and files included in your clover report -->
+      <file>../Module.php</file>
       <directory suffix=".php">./../src</directory>
     </whitelist>
   </filter>
+
   <logging>
     <!-- and this is where your report will be written -->
     <log type="coverage-clover" target="./clover.xml"/>
