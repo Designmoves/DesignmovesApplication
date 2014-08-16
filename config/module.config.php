@@ -1,10 +1,6 @@
 <?php
 
 return array(
-    'designmoves_application' => array(
-        'force_lowercase_request' => true,
-    ),
-
     'controllers' => array(
         'invokables' => array(
             'DesignmovesApplication\Controller\Index' => 'DesignmovesApplication\Controller\IndexController',
