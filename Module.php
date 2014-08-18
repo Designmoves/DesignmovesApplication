@@ -33,38 +33,16 @@ namespace DesignmovesApplication;
 
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature;
+use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 class Module implements
     Feature\AutoloaderProviderInterface,
     Feature\BootstrapListenerInterface,
-    Feature\ConfigProviderInterface
+    Feature\ConfigProviderInterface,
+    Feature\InitProviderInterface
 {
-    /**
-     * Force lowercase request uri
-     *
-     * @param MvcEvent $event
-     */
-    public function forceLowercaseRequest(MvcEvent $event)
-    {
-        $application    = $event->getApplication();
-        $serviceManager = $application->getServiceManager();
-        $moduleOptions  = $serviceManager->get(__NAMESPACE__ . '\Options\ModuleOptions');
-
-        if (true === $moduleOptions->getForceLowercaseRequest()) {
-            $fullUrl = (string) $event->getRequest()->getUri()->normalize();
-            if (strtolower($fullUrl) != $fullUrl) {
-                $response = $event->getResponse();
-                $response->setStatusCode(301);
-                $response->getHeaders()->addHeaderLine('Location', strtolower($fullUrl));
-                $response->send();
-                // return $response->send(); does not work
-                exit;
-            }
-        }
-    }
-
     /**
      * Get auto loader config
      *
@@ -95,14 +73,26 @@ class Module implements
     }
 
     /**
+     * @param ModuleManagerInterface $moduleManager
+     */
+    public function init(ModuleManagerInterface $moduleManager)
+    {
+        $eventManager = $moduleManager->getEventManager();
+
+        $identifier = 'Zend\Mvc\Application';
+        $event      = MvcEvent::EVENT_BOOTSTRAP;
+        $callback   = array($this, 'forceLowercaseRequest');
+        $priority   = 100;
+        $eventManager->getSharedManager()->attach($identifier, $event, $callback, $priority);
+    }
+
+    /**
      * On bootstrap event
      *
      * @param EventInterface $event
      */
     public function onBootstrap(EventInterface $event)
     {
-        $this->forceLowercaseRequest($event);
-
         $application    = $event->getApplication();
         $serviceManager = $application->getServiceManager();
         $eventManager   = $application->getEventManager();
@@ -112,5 +102,43 @@ class Module implements
 
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+    }
+
+    /**
+     * Force lowercase request uri
+     * @link http://stackoverflow.com/a/14170913
+     *
+     * @param EventInterface $event
+     */
+    public function forceLowercaseRequest(EventInterface $event)
+    {
+        $application    = $event->getApplication();
+        $serviceManager = $application->getServiceManager();
+        $moduleOptions  = $serviceManager->get(__NAMESPACE__ . '\Options\ModuleOptions');
+
+        if (false === $moduleOptions->getForceLowercaseRequest()) {
+            // Nothing to do
+            return;
+        }
+
+        $fullUrl = (string) $event->getRequest()->getUri()->normalize();
+        if (strtolower($fullUrl) != $fullUrl) {
+            $response = $event->getResponse();
+            $response->setStatusCode(301);
+            $response->getHeaders()->addHeaderLine('Location', strtolower($fullUrl));
+            $response->sendHeaders();
+
+            $application->getEventManager()->attach(
+                MvcEvent::EVENT_ROUTE,
+                function ($event) use ($response) {
+                    $event->stopPropagation();
+
+                    return $response;
+                },
+                10000
+            );
+
+            return $response;
+        }
     }
 }
