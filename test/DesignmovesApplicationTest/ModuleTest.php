@@ -99,12 +99,12 @@ class ModuleTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::init
      */
-    public function testInitAttachesContextListener()
+    public function testInitAttachesForceLowercaseRequestListener()
     {
-        $moduleManager = new ModuleManager(array());
-
         $eventManager = new EventManager;
         $eventManager->setSharedManager(new SharedEventManager);
+
+        $moduleManager = new ModuleManager(array());
         $moduleManager->setEventManager($eventManager);
 
         $this->module->init($moduleManager);
@@ -164,13 +164,12 @@ class ModuleTest extends PHPUnit_Framework_TestCase
      * @dataProvider providerRequestUri
      * @uses         DesignmovesApplication\Options\ModuleOptions
      */
-    // $requestUri, $statusCode, $headerLine
     public function testCanForceLowercaseRequest($requestUri, $expectedStatusCode, $expectedHeaderLine)
     {
         $request  = new HttpRequest;
         $response = new HttpResponse;
 
-        $event   = new MvcEvent;
+        $event = new MvcEvent;
         $event->setRequest($request);
         $event->setResponse($response);
 
