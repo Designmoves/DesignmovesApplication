@@ -43,7 +43,15 @@
     <div id="wrapper">
       <h1><?php echo $this->escapeHtml($this->content); ?></h1>
       <p><?php echo $this->escapeHtml($this->content); ?></p>
-      <p>File: <code><?php echo $this->escapeHtml(substr(__FILE__, strrpos(__FILE__, 'DesignmovesApplication'))); ?></code></p>
+      <p>File: <code><?php
+      $offset = strrpos(__FILE__, 'module');
+      if (false === $offset) {
+          $offset = strrpos(__FILE__, 'vendor');
+      }
+
+      $template = substr(__FILE__, $offset + 7);
+      echo $this->escapeHtml($template);
+      ?></code></p>
     </div>
   </body>
 </html>
