@@ -10,7 +10,7 @@
         "base",
         "module"
     ],
-    "homepage": "http://www.designmoves.nl/",
+    "homepage": "https://github.com/Designmoves/DesignmovesApplication",
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=5.3.23",
