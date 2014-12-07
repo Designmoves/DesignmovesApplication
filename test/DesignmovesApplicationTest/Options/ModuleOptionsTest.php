@@ -46,7 +46,7 @@ class ModuleOptionsTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->options = new ModuleOptions;
+        $this->options = new ModuleOptions();
     }
 
     public function testStrictModeIsEnabled()

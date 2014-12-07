@@ -69,7 +69,7 @@ class ExceptionTemplateListener extends AbstractListenerAggregate
         $callback = array($this, 'prepareExceptionViewModel');
 
         $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, $callback);
-        $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR  , $callback);
+        $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, $callback);
     }
 
     /**

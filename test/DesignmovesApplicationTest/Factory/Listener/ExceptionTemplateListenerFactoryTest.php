@@ -54,7 +54,7 @@ class ExceptionTemplateListenerFactoryTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->serviceManager = new ServiceManager;
+        $this->serviceManager = new ServiceManager();
         $this->factory        = new ExceptionTemplateListenerFactory();
     }
 
@@ -63,7 +63,7 @@ class ExceptionTemplateListenerFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCanCreateService()
     {
-        $this->serviceManager->setService('Zend\View\Renderer\PhpRenderer', new PhpRenderer);
+        $this->serviceManager->setService('Zend\View\Renderer\PhpRenderer', new PhpRenderer());
 
         $listener = $this->factory->createService($this->serviceManager);
 

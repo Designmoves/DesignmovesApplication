@@ -60,7 +60,7 @@ class ModuleTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->module = new Module;
+        $this->module = new Module();
     }
 
     /**
@@ -103,8 +103,8 @@ class ModuleTest extends PHPUnit_Framework_TestCase
      */
     public function testInitAttachesForceLowercaseRequestListener()
     {
-        $eventManager = new EventManager;
-        $eventManager->setSharedManager(new SharedEventManager);
+        $eventManager = new EventManager();
+        $eventManager->setSharedManager(new SharedEventManager());
 
         $moduleManager = new ModuleManager(array());
         $moduleManager->setEventManager($eventManager);
@@ -139,18 +139,18 @@ class ModuleTest extends PHPUnit_Framework_TestCase
     {
         $eventManagerMock = $this->getMock('Zend\EventManager\EventManager');
 
-        $serviceManager = new ServiceManager;
+        $serviceManager = new ServiceManager();
         $serviceManager->setService('EventManager', $eventManagerMock);
-        $serviceManager->setService('Request', new HttpRequest);
-        $serviceManager->setService('Response', new HttpResponse);
+        $serviceManager->setService('Request', new HttpRequest());
+        $serviceManager->setService('Response', new HttpResponse());
 
-        $exceptionTemplateListener = new ExceptionTemplateListener(new PhpRenderer);
+        $exceptionTemplateListener = new ExceptionTemplateListener(new PhpRenderer());
         $serviceManager->setService(
             'DesignmovesApplication\Listener\ExceptionTemplateListener',
             $exceptionTemplateListener
         );
 
-        $mvcEvent    = new MvcEvent;
+        $mvcEvent    = new MvcEvent();
         $application = new Application(array(), $serviceManager);
         $mvcEvent->setApplication($application);
 
@@ -168,22 +168,22 @@ class ModuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCanForceLowercaseRequest($requestUri, $expectedStatusCode, $expectedHeaderLine)
     {
-        $request  = new HttpRequest;
-        $response = new HttpResponse;
+        $request  = new HttpRequest();
+        $response = new HttpResponse();
 
-        $event = new MvcEvent;
+        $event = new MvcEvent();
         $event->setRequest($request);
         $event->setResponse($response);
 
-        $serviceManager = new ServiceManager;
-        $serviceManager->setService('EventManager', new EventManager);
+        $serviceManager = new ServiceManager();
+        $serviceManager->setService('EventManager', new EventManager());
         $serviceManager->setService('Request'     , $request);
         $serviceManager->setService('Response'    , $response);
 
         $application = new Application(array(), $serviceManager);
         $event->setApplication($application);
 
-        $moduleOptions = new ModuleOptions;
+        $moduleOptions = new ModuleOptions();
         $serviceManager->setService('DesignmovesApplication\Options\ModuleOptions', $moduleOptions);
 
         $request->setUri(new HttpUri($requestUri));
@@ -208,15 +208,15 @@ class ModuleTest extends PHPUnit_Framework_TestCase
      */
     public function testForceLowercaseRequestIgnoresConsoleRequest()
     {
-        $consoleRequest  = new ConsoleRequest;
-        $consoleResponse = new ConsoleResponse;
+        $consoleRequest  = new ConsoleRequest();
+        $consoleResponse = new ConsoleResponse();
 
-        $event = new MvcEvent;
+        $event = new MvcEvent();
         $event->setRequest($consoleRequest);
         $event->setResponse($consoleResponse);
 
-        $serviceManager = new ServiceManager;
-        $serviceManager->setService('EventManager', new EventManager);
+        $serviceManager = new ServiceManager();
+        $serviceManager->setService('EventManager', new EventManager());
         $serviceManager->setService('Request'     , $consoleRequest);
         $serviceManager->setService('Response'    , $consoleResponse);
 

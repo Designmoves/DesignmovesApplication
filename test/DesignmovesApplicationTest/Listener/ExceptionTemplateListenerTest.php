@@ -92,8 +92,8 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->event    = new MvcEvent;
-        $this->renderer = new PhpRenderer;
+        $this->event    = new MvcEvent();
+        $this->renderer = new PhpRenderer();
         $this->listener = new ExceptionTemplateListener($this->renderer);
     }
 
@@ -110,7 +110,7 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testAttachesPrepareExceptionViewModelListenerOnEventDispatchError()
     {
-        $eventManager = new EventManager;
+        $eventManager = new EventManager();
         $eventManager->attach($this->listener);
 
         $listeners        = $eventManager->getListeners(MvcEvent::EVENT_DISPATCH_ERROR);
@@ -136,7 +136,7 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testAttachesPrepareExceptionViewModelListenerOnEventRenderError()
     {
-        $eventManager = new EventManager;
+        $eventManager = new EventManager();
         $eventManager->attach($this->listener);
 
         $listeners        = $eventManager->getListeners(MvcEvent::EVENT_RENDER_ERROR);
@@ -176,9 +176,9 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->event->setParam('exception', $exception);
 
         $this->event->setError(Application::ERROR_EXCEPTION);
-        $this->event->setResult(new ViewModel);
+        $this->event->setResult(new ViewModel());
 
-        $response = new Response;
+        $response = new Response();
         $this->event->setResponse($response);
 
         $this->listener->prepareExceptionViewModel($this->event);
@@ -196,10 +196,10 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->event->setParam('exception', $exception);
 
         $this->event->setError(Application::ERROR_EXCEPTION);
-        $this->event->setResult(new ViewModel);
+        $this->event->setResult(new ViewModel());
 
 
-        $response = new Response;
+        $response = new Response();
         $this->event->setResponse($response);
 
         $this->listener->prepareExceptionViewModel($this->event);
@@ -212,7 +212,7 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     public function testCanGetDefaultStatusCodes()
     {
-        $response      = new Response;
+        $response      = new Response();
         $reasonPhrases = self::readAttribute($response, 'recommendedReasonPhrases');
         $expectedValue = array_keys($reasonPhrases);
 

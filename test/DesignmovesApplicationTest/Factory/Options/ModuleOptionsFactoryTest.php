@@ -53,8 +53,8 @@ class ModuleOptionsFactoryTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->factory        = new ModuleOptionsFactory;
-        $this->serviceManager = new ServiceManager;
+        $this->factory        = new ModuleOptionsFactory();
+        $this->serviceManager = new ServiceManager();
     }
 
     /**

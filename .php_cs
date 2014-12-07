@@ -17,6 +17,10 @@ return Symfony\CS\Config\Config::create()
          */
         'braces',
         /**
+         * [contrib] Concatenation should be used with at least one whitespace around.
+         */
+        'concat_with_spaces',
+        /**
          * [PSR-2] The keyword elseif should be used instead of else if so that all control keywords looks
          * like single words.
          */
