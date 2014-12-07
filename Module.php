@@ -31,6 +31,7 @@
 
 namespace DesignmovesApplication;
 
+use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature;
 use Zend\ModuleManager\ModuleManagerInterface;
@@ -112,6 +113,13 @@ class Module implements
      */
     public function forceLowercaseRequest(EventInterface $event)
     {
+        /* @var $event \Zend\Mvc\MvcEvent */
+
+        // Ignore console requests
+        if ($event->getRequest() instanceof ConsoleRequest) {
+            return;
+        }
+
         $application    = $event->getApplication();
         $serviceManager = $application->getServiceManager();
         $moduleOptions  = $serviceManager->get(__NAMESPACE__ . '\Options\ModuleOptions');

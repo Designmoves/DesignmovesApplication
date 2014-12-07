@@ -35,6 +35,8 @@ use DesignmovesApplication\Module;
 use DesignmovesApplication\Listener\ExceptionTemplateListener;
 use DesignmovesApplication\Options\ModuleOptions;
 use PHPUnit_Framework_TestCase;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\SharedEventManager;
 use Zend\Http\PhpEnvironment\Response as HttpResponse;
@@ -199,5 +201,32 @@ class ModuleTest extends PHPUnit_Framework_TestCase
         if (301 == $expectedStatusCode) {
             $this->assertSame('', $response->getContent());
         }
+    }
+
+    /**
+     * @covers ::forceLowercaseRequest
+     */
+    public function testForceLowercaseRequestIgnoresConsoleRequest()
+    {
+        $consoleRequest  = new ConsoleRequest;
+        $consoleResponse = new ConsoleResponse;
+
+        $event = new MvcEvent;
+        $event->setRequest($consoleRequest);
+        $event->setResponse($consoleResponse);
+
+        $serviceManager = new ServiceManager;
+        $serviceManager->setService('EventManager', new EventManager);
+        $serviceManager->setService('Request'     , $consoleRequest);
+        $serviceManager->setService('Response'    , $consoleResponse);
+
+        $application = new Application(array(), $serviceManager);
+        $event->setApplication($application);
+
+        $consoleRequest->setScriptName('foo');
+        $this->module->forceLowercaseRequest($event);
+
+        $this->assertSame(0, $consoleResponse->getErrorLevel());
+        $this->assertSame("\r\n", $consoleResponse->toString());
     }
 }
