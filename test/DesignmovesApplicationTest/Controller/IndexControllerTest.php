@@ -105,8 +105,8 @@ class IndexControllerTest extends PHPUnit_Framework_TestCase
         // Check for a ViewModel to be returned
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
 
-        // Check if ViewModel is standalone
-        $this->assertTrue($result->terminate());
+        // Check if ViewModel is not standalone
+        $this->assertFalse($result->terminate());
 
         // Test the parameters contained in the View model
         $variables = $result->getVariables();

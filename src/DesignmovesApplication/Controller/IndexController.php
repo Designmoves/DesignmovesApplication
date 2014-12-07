@@ -42,9 +42,6 @@ class IndexController extends AbstractActionController
      */
     public function placeholderAction()
     {
-        $viewModel = parent::indexAction();
-        $viewModel->setTerminal(true);
-
-        return $viewModel;
+        return parent::indexAction();
     }
 }

@@ -1,58 +1,11 @@
-<?php echo $this->doctype(); ?>
+<h1><?php echo $this->escapeHtml($this->content); ?></h1>
+<p><?php echo $this->escapeHtml($this->content); ?></p>
+<p>File: <code><?php
+$offset = strrpos(__FILE__, 'module');
+if (false === $offset) {
+    $offset = strrpos(__FILE__, 'vendor');
+}
 
-<html lang="en">
-  <head>
-    <?php echo $this->headMeta()->setCharset('UTF-8') . PHP_EOL; ?>
-    <title><?php echo $this->escapeHtml($this->content); ?></title>
-    <style>
-    html {
-        background: #CCC;
-        display: table;
-        font-size: 62.5%;
-        height: 100%;
-        margin: 0 auto;
-    }
-    body {
-        display: table-cell;
-        font: normal 2em/1.4 Georgia;
-        padding: 1em;
-        vertical-align: middle;
-    }
-    #wrapper {
-        background: #333;
-        border: 1px solid #EFEFEF;
-        border-radius: .3em;
-        box-shadow: 0px 0px 10px 2px #333;
-        color: #EFEFEF;
-        padding: 1em 2em;
-        text-align: center;
-        text-shadow: 1px 1px 1px #000;
-    }
-    h1 {
-        margin: 0;
-    }
-    p {
-        margin: 1em 0 0;
-    }
-    pre {
-        text-align: left;
-    }
-    </style>
-  </head>
-
-  <body>
-    <div id="wrapper">
-      <h1><?php echo $this->escapeHtml($this->content); ?></h1>
-      <p><?php echo $this->escapeHtml($this->content); ?></p>
-      <p>File: <code><?php
-      $offset = strrpos(__FILE__, 'module');
-      if (false === $offset) {
-          $offset = strrpos(__FILE__, 'vendor');
-      }
-
-      $template = substr(__FILE__, $offset + 7);
-      echo $this->escapeHtml($template);
-      ?></code></p>
-    </div>
-  </body>
-</html>
+$template = substr(__FILE__, $offset + 7);
+echo $this->escapeHtml($template);
+?></code></p>
