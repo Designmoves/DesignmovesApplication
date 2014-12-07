@@ -177,8 +177,8 @@ class ModuleTest extends PHPUnit_Framework_TestCase
 
         $serviceManager = new ServiceManager();
         $serviceManager->setService('EventManager', new EventManager());
-        $serviceManager->setService('Request'     , $request);
-        $serviceManager->setService('Response'    , $response);
+        $serviceManager->setService('Request', $request);
+        $serviceManager->setService('Response', $response);
 
         $application = new Application(array(), $serviceManager);
         $event->setApplication($application);
@@ -217,8 +217,8 @@ class ModuleTest extends PHPUnit_Framework_TestCase
 
         $serviceManager = new ServiceManager();
         $serviceManager->setService('EventManager', new EventManager());
-        $serviceManager->setService('Request'     , $consoleRequest);
-        $serviceManager->setService('Response'    , $consoleResponse);
+        $serviceManager->setService('Request', $consoleRequest);
+        $serviceManager->setService('Response', $consoleResponse);
 
         $application = new Application(array(), $serviceManager);
         $event->setApplication($application);

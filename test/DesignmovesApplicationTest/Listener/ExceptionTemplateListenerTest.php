@@ -198,7 +198,6 @@ class ExceptionTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->event->setError(Application::ERROR_EXCEPTION);
         $this->event->setResult(new ViewModel());
 
-
         $response = new Response();
         $this->event->setResponse($response);
 
