@@ -84,9 +84,19 @@ return array(
     ),
 
     'view_manager' => array(
-        'doctype'    => 'HTML5',
+        'display_exceptions'       => true,
+        'display_not_found_reason' => true,
+        'doctype'                  => 'HTML5',
+        'exception_template'       => 'error/index',
+        'not_found_template'       => 'error/404',
         'strategies' => array(
             'ViewJsonStrategy',
+        ),
+        'template_map' => array(
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'error/partial/exception' => __DIR__ . '/../view/error/partial/exception.phtml',
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
         ),
         'template_path_stack' => array(
             'designmoves_application' => __DIR__ . '/../view',
