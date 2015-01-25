@@ -1,0 +1,12 @@
+<?php
+$title = 'An error occurred';
+
+$this->headTitle()->deleteContainer();
+$this->headTitle($title);
+?>
+
+<h1><?php echo $this->translate($title); ?></h1>
+<h2><?php echo $this->translate($this->message); ?></h2>
+
+<?php
+echo $this->partial('error/partial/exception', $this->vars());

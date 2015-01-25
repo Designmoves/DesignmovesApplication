@@ -36,7 +36,7 @@ use ReflectionProperty;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response;
+use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
@@ -44,6 +44,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class ExceptionTemplateListener extends AbstractListenerAggregate
 {
+    /**
+     * @var array
+     */
+    protected $recommendedReasonPhrases;
+
     /**
      * @var PhpRenderer
      */
@@ -111,15 +116,14 @@ class ExceptionTemplateListener extends AbstractListenerAggregate
             return;
         }
 
-        $response           = $event->getResponse();
-        $defaultStatusCodes = $this->getDefaultStatusCodes($response);
+        $defaultStatusCodes = $this->getDefaultStatusCodes();
         $statusCode         = $exception->getCode();
 
         if (!in_array($statusCode, $defaultStatusCodes)) {
             $statusCode = 500;
         }
 
-        $response->setStatusCode($statusCode);
+        $event->getResponse()->setStatusCode($statusCode);
 
         $template = 'error/' . $statusCode;
         if ($this->getRenderer()->resolver($template)) {
@@ -128,17 +132,27 @@ class ExceptionTemplateListener extends AbstractListenerAggregate
     }
 
     /**
-     * @param  Response $response
      * @return array
      */
-    protected function getDefaultStatusCodes(Response $response)
+    protected function getDefaultStatusCodes()
     {
-        $property = new ReflectionProperty($response, 'recommendedReasonPhrases');
-        $property->setAccessible(true);
+        return array_keys($this->getRecommendedReasonPhrases());
+    }
 
-        $value = $property->getValue($response);
+    /**
+     * @return array
+     */
+    protected function getRecommendedReasonPhrases()
+    {
+        if (!isset($this->recommendedReasonPhrases)) {
+            $response = new HttpResponse();
+            $property = new ReflectionProperty($response, 'recommendedReasonPhrases');
+            $property->setAccessible(true);
 
-        return array_keys($value);
+            $this->recommendedReasonPhrases = $property->getValue($response);
+        }
+
+        return $this->recommendedReasonPhrases;
     }
 
     /**
