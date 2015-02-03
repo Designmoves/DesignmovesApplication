@@ -95,11 +95,7 @@ class Module implements
     public function onBootstrap(EventInterface $event)
     {
         $application    = $event->getApplication();
-        $serviceManager = $application->getServiceManager();
         $eventManager   = $application->getEventManager();
-
-        $exceptionTemplateListener = $serviceManager->get(__NAMESPACE__ . '\Listener\ExceptionTemplateListener');
-        $eventManager->attach($exceptionTemplateListener);
 
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);

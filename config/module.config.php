@@ -66,9 +66,11 @@ return array(
             'translator' => 'MvcTranslator',
         ),
         'factories' => array(
-            'DesignmovesApplication\Listener\ExceptionTemplateListener' => 'DesignmovesApplication\Factory\Listener\ExceptionTemplateListenerFactory',
-            'DesignmovesApplication\Options\ModuleOptions'              => 'DesignmovesApplication\Factory\Options\ModuleOptionsFactory',
-            'Zend\Navigation\Service\DefaultNavigationFactory'          => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'DesignmovesApplication\Options\ModuleOptions' =>
+                'DesignmovesApplication\Factory\Options\ModuleOptionsFactory',
+            'DesignmovesApplication\View\Strategy\ExceptionStrategy' =>
+                'DesignmovesApplication\Factory\View\Strategy\ExceptionStrategyFactory',
+            'Zend\Navigation\Service\DefaultNavigationFactory' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
     ),
 
@@ -88,6 +90,9 @@ return array(
         'display_not_found_reason' => true,
         'doctype'                  => 'HTML5',
         'exception_template'       => 'error/index',
+        'mvc_strategies' => array(
+            'DesignmovesApplication\View\Strategy\ExceptionStrategy',
+        ),
         'not_found_template'       => 'error/404',
         'strategies' => array(
             'ViewJsonStrategy',

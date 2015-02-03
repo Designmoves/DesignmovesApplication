@@ -132,36 +132,6 @@ class ModuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::onBootstrap
-     * @uses   DesignmovesApplication\Listener\ExceptionTemplateListener
-     */
-    public function testOnBootstrapAttachesExceptionTemplateListener()
-    {
-        $eventManagerMock = $this->getMock('Zend\EventManager\EventManager');
-
-        $serviceManager = new ServiceManager();
-        $serviceManager->setService('EventManager', $eventManagerMock);
-        $serviceManager->setService('Request', new HttpRequest());
-        $serviceManager->setService('Response', new HttpResponse());
-
-        $exceptionTemplateListener = new ExceptionTemplateListener(new PhpRenderer());
-        $serviceManager->setService(
-            'DesignmovesApplication\Listener\ExceptionTemplateListener',
-            $exceptionTemplateListener
-        );
-
-        $mvcEvent    = new MvcEvent();
-        $application = new Application(array(), $serviceManager);
-        $mvcEvent->setApplication($application);
-
-        $eventManagerMock->expects($this->at(0))
-                         ->method($this->equalTo('attach'))
-                         ->with($exceptionTemplateListener);
-
-        $this->module->onBootstrap($mvcEvent);
-    }
-
-    /**
      * @covers       ::forceLowercaseRequest
      * @dataProvider providerRequestUri
      * @uses         DesignmovesApplication\Options\ModuleOptions
