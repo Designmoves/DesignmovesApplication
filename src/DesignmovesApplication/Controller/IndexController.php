@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2014, Designmoves http://www.designmoves.nl
+ * Copyright (c) 2014 - 2015, Designmoves (http://www.designmoves.nl)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
