@@ -11,13 +11,3 @@ if (false === $offset) {
 $template = substr(__FILE__, $offset + 7);
 echo $this->escapeHtml($template);
 ?></code></p>
-
-<?php
-$exceptionCode = 404;
-
-throw new Exception(sprintf(
-    'Exception thrown in "%s" with exception code "%s"',
-    basename(__FILE__),
-    $exceptionCode
-), $exceptionCode);
-
