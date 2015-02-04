@@ -32,7 +32,6 @@
 namespace DesignmovesApplicationTest;
 
 use DesignmovesApplication\Module;
-use DesignmovesApplication\Listener\ExceptionTemplateListener;
 use DesignmovesApplication\Options\ModuleOptions;
 use PHPUnit_Framework_TestCase;
 use Zend\Console\Request as ConsoleRequest;
@@ -46,7 +45,6 @@ use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Uri\Http as HttpUri;
-use Zend\View\Renderer\PhpRenderer;
 
 /**
  * @coversDefaultClass DesignmovesApplication\Module

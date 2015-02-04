@@ -40,7 +40,7 @@ use Zend\View\Renderer\PhpRenderer;
  * @coversDefaultClass DesignmovesApplication\Factory\View\Strategy\ExceptionStrategyFactory
  * @uses               DesignmovesApplication\View\Strategy\ExceptionStrategy
  */
-class ExceptionTemplateListenerFactoryTest extends PHPUnit_Framework_TestCase
+class ExceptionStrategyFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var ExceptionStrategyFactory
