@@ -22,7 +22,7 @@ before_script:
 
 script:
   # Run PHP Coding Standards Fixer
-  - vendor/bin/php-cs-fixer fix --verbose --dry-run
+  - vendor/bin/php-cs-fixer fix --verbose --diff --dry-run
   # Run PHPUnit (Travis build passing icon)
   # - use configuration file located at: test/phpunit.xml.dist
   # - save a coverage report for Coveralls at: build/logs/clover.xml
