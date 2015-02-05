@@ -31,8 +31,8 @@
 
 namespace DesignmovesApplicationTest\View\Strategy;
 
-use Exception;
 use DesignmovesApplication\View\Strategy\ExceptionStrategy;
+use Exception;
 use PHPUnit_Framework_TestCase;
 use ReflectionMethod;
 use Zend\EventManager\EventManager;
